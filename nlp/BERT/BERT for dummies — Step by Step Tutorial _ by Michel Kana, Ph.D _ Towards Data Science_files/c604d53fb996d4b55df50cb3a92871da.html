@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)https://towardsdatascience.com/media/c604d53fb996d4b55df50cb3a92871da -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style id="stndz-style"></style><title>bert_atis_classifier_data_tensors.py – Medium</title><meta name="description" content="You can&#39;t perform that action at this time. You signed in with another tab or window. You signed out in another tab or window. Reload to refresh your session. Reload to refresh your session."><meta name="twitter:widgets:csp" content="on"><meta name="robots" content="noindex"><!--<base target="_blank">--><base href="." target="_blank"><style>body {text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: "ff-tisa-web-pro", Georgia, Cambria, "Times New Roman", Times, serif; font-weight: 400; color: #333332; font-size: 18px; line-height: 1.4; margin: 0; background-color: white; overflow: hidden;}iframe {max-width: 100%;}</style></head><body><style>.gist .gist-file { margin-bottom: 0 !important; }.gist { text-rendering: auto; }</style><script src="./2c763eacf1cbb6c24fc10a1313cb5d5a.js.download" charset="utf-8"></script><link rel="stylesheet" href="./gist-embed-52b3348036dbd45f4ab76e44de42ebc4.css"><div id="gist97617187" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-bert_atis_classifier_data_tensors-py" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-python ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8" data-paste-markdown-skip="">
+      <tbody><tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-c"># Use train_test_split to split our data into train and validation sets for training</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">train_inputs</span>, <span class="pl-s1">validation_inputs</span>, <span class="pl-s1">train_labels</span>, <span class="pl-s1">validation_labels</span> <span class="pl-c1">=</span> <span class="pl-en">train_test_split</span>(<span class="pl-s1">input_ids</span>, <span class="pl-s1">labels</span>, </td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC3" class="blob-code blob-code-inner js-file-line">                                                            <span class="pl-s1">random_state</span><span class="pl-c1">=</span><span class="pl-c1">2018</span>, <span class="pl-s1">test_size</span><span class="pl-c1">=</span><span class="pl-c1">0.1</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC4" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">train_masks</span>, <span class="pl-s1">validation_masks</span>, <span class="pl-s1">_</span>, <span class="pl-s1">_</span> <span class="pl-c1">=</span> <span class="pl-en">train_test_split</span>(<span class="pl-s1">attention_masks</span>, <span class="pl-s1">input_ids</span>,</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC5" class="blob-code blob-code-inner js-file-line">                                             <span class="pl-s1">random_state</span><span class="pl-c1">=</span><span class="pl-c1">2018</span>, <span class="pl-s1">test_size</span><span class="pl-c1">=</span><span class="pl-c1">0.1</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC6" class="blob-code blob-code-inner js-file-line">                                             </td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC7" class="blob-code blob-code-inner js-file-line"><span class="pl-c"># Convert all of our data into torch tensors, the required datatype for our model</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC8" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">train_inputs</span> <span class="pl-c1">=</span> <span class="pl-s1">torch</span>.<span class="pl-en">tensor</span>(<span class="pl-s1">train_inputs</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC9" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">validation_inputs</span> <span class="pl-c1">=</span> <span class="pl-s1">torch</span>.<span class="pl-en">tensor</span>(<span class="pl-s1">validation_inputs</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC10" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">train_labels</span> <span class="pl-c1">=</span> <span class="pl-s1">torch</span>.<span class="pl-en">tensor</span>(<span class="pl-s1">train_labels</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC11" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">validation_labels</span> <span class="pl-c1">=</span> <span class="pl-s1">torch</span>.<span class="pl-en">tensor</span>(<span class="pl-s1">validation_labels</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L12" class="blob-num js-line-number" data-line-number="12"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC12" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">train_masks</span> <span class="pl-c1">=</span> <span class="pl-s1">torch</span>.<span class="pl-en">tensor</span>(<span class="pl-s1">train_masks</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L13" class="blob-num js-line-number" data-line-number="13"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC13" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">validation_masks</span> <span class="pl-c1">=</span> <span class="pl-s1">torch</span>.<span class="pl-en">tensor</span>(<span class="pl-s1">validation_masks</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L14" class="blob-num js-line-number" data-line-number="14"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC14" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L15" class="blob-num js-line-number" data-line-number="15"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC15" class="blob-code blob-code-inner js-file-line"><span class="pl-c"># Select a batch size for training. </span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L16" class="blob-num js-line-number" data-line-number="16"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC16" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">batch_size</span> <span class="pl-c1">=</span> <span class="pl-c1">32</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L17" class="blob-num js-line-number" data-line-number="17"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC17" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L18" class="blob-num js-line-number" data-line-number="18"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC18" class="blob-code blob-code-inner js-file-line"><span class="pl-c"># Create an iterator of our data with torch DataLoader </span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L19" class="blob-num js-line-number" data-line-number="19"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC19" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">train_data</span> <span class="pl-c1">=</span> <span class="pl-v">TensorDataset</span>(<span class="pl-s1">train_inputs</span>, <span class="pl-s1">train_masks</span>, <span class="pl-s1">train_labels</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L20" class="blob-num js-line-number" data-line-number="20"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC20" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">train_sampler</span> <span class="pl-c1">=</span> <span class="pl-v">RandomSampler</span>(<span class="pl-s1">train_data</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L21" class="blob-num js-line-number" data-line-number="21"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC21" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">train_dataloader</span> <span class="pl-c1">=</span> <span class="pl-v">DataLoader</span>(<span class="pl-s1">train_data</span>, <span class="pl-s1">sampler</span><span class="pl-c1">=</span><span class="pl-s1">train_sampler</span>, <span class="pl-s1">batch_size</span><span class="pl-c1">=</span><span class="pl-s1">batch_size</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L22" class="blob-num js-line-number" data-line-number="22"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC22" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">validation_data</span> <span class="pl-c1">=</span> <span class="pl-v">TensorDataset</span>(<span class="pl-s1">validation_inputs</span>, <span class="pl-s1">validation_masks</span>, <span class="pl-s1">validation_labels</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L23" class="blob-num js-line-number" data-line-number="23"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC23" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">validation_sampler</span> <span class="pl-c1">=</span> <span class="pl-v">SequentialSampler</span>(<span class="pl-s1">validation_data</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_data_tensors-py-L24" class="blob-num js-line-number" data-line-number="24"></td>
+        <td id="file-bert_atis_classifier_data_tensors-py-LC24" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">validation_dataloader</span> <span class="pl-c1">=</span> <span class="pl-v">DataLoader</span>(<span class="pl-s1">validation_data</span>, <span class="pl-s1">sampler</span><span class="pl-c1">=</span><span class="pl-s1">validation_sampler</span>, <span class="pl-s1">batch_size</span><span class="pl-c1">=</span><span class="pl-s1">batch_size</span>)</td>
+      </tr>
+</tbody></table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/michelkana/2c763eacf1cbb6c24fc10a1313cb5d5a/raw/021af71215dd5992ee1c2169bfca62085aa9e552/bert_atis_classifier_data_tensors.py" style="float:right">view raw</a>
+        <a href="https://gist.github.com/michelkana/2c763eacf1cbb6c24fc10a1313cb5d5a#file-bert_atis_classifier_data_tensors-py">bert_atis_classifier_data_tensors.py</a>
+        hosted with ❤ by <a href="https://github.com/">GitHub</a>
+      </div>
+    </div>
+</div>
+<script>var height = -1; var delayMs = 200; if (document) {document.domain = document.domain;}function notifyResize(height) {height = height ? height : document.documentElement.offsetHeight; var resized = false; if (window.donkey && donkey.resize) {donkey.resize(height);var elements = document.getElementsByClassName("gist-data"); for (var i = 0; i < elements.length; i++) {elements[i].style.overflow = "visible"}resized = true;}if (parent && parent._resizeIframe) {var obj = {iframe: window.frameElement, height: height}; parent._resizeIframe(obj); resized = true;}if (window.location && window.location.hash === "#amp=1" && window.parent && window.parent.postMessage) {window.parent.postMessage({sentinel: "amp", type: "embed-size", height: height}, "*");}if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.resize) {window.webkit.messageHandlers.resize.postMessage(height); resized = true;}return resized;}function maybeResize() {try {if (document.documentElement.offsetHeight != height && notifyResize()) {height = document.documentElement.offsetHeight;}delayMs = Math.min(delayMs * 2, 1000000); setTimeout(maybeResize, delayMs);} catch(error) {console.log('maybeResize error: ', error)}}maybeResize();</script></body></html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)https://towardsdatascience.com/media/322b25fa398a0c1c85f432a243c2fdca -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style id="stndz-style"></style><title>bert_atis_classifier_evaluation_testdata.py – Medium</title><meta name="description" content="You can&#39;t perform that action at this time. You signed in with another tab or window. You signed out in another tab or window. Reload to refresh your session. Reload to refresh your session."><meta name="twitter:widgets:csp" content="on"><meta name="robots" content="noindex"><!--<base target="_blank">--><base href="." target="_blank"><style>body {text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: "ff-tisa-web-pro", Georgia, Cambria, "Times New Roman", Times, serif; font-weight: 400; color: #333332; font-size: 18px; line-height: 1.4; margin: 0; background-color: white; overflow: hidden;}iframe {max-width: 100%;}</style></head><body><style>.gist .gist-file { margin-bottom: 0 !important; }.gist { text-rendering: auto; }</style><script src="./9252d6d8645b01f1bcce5040c7fd87cd.js.download" charset="utf-8"></script><link rel="stylesheet" href="./gist-embed-52b3348036dbd45f4ab76e44de42ebc4.css"><div id="gist97618441" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-bert_atis_classifier_evaluation_testdata-py" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-python ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8" data-paste-markdown-skip="">
+      <tbody><tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-c"># load test data</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">sentences</span> <span class="pl-c1">=</span> [<span class="pl-s">"[CLS] "</span> <span class="pl-c1">+</span> <span class="pl-s1">query</span> <span class="pl-c1">+</span> <span class="pl-s">" [SEP]"</span> <span class="pl-k">for</span> <span class="pl-s1">query</span> <span class="pl-c1">in</span> <span class="pl-s1">query_data_test</span>]</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">labels</span> <span class="pl-c1">=</span> <span class="pl-s1">intent_data_label_test</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC4" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC5" class="blob-code blob-code-inner js-file-line"><span class="pl-c"># tokenize test data</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC6" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">tokenized_texts</span> <span class="pl-c1">=</span> [<span class="pl-s1">tokenizer</span>.<span class="pl-en">tokenize</span>(<span class="pl-s1">sent</span>) <span class="pl-k">for</span> <span class="pl-s1">sent</span> <span class="pl-c1">in</span> <span class="pl-s1">sentences</span>]</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC7" class="blob-code blob-code-inner js-file-line"><span class="pl-v">MAX_LEN</span> <span class="pl-c1">=</span> <span class="pl-c1">128</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC8" class="blob-code blob-code-inner js-file-line"><span class="pl-c"># Pad our input tokens</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC9" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">input_ids</span> <span class="pl-c1">=</span> <span class="pl-en">pad_sequences</span>([<span class="pl-s1">tokenizer</span>.<span class="pl-en">convert_tokens_to_ids</span>(<span class="pl-s1">txt</span>) <span class="pl-k">for</span> <span class="pl-s1">txt</span> <span class="pl-c1">in</span> <span class="pl-s1">tokenized_texts</span>],</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC10" class="blob-code blob-code-inner js-file-line">                          <span class="pl-s1">maxlen</span><span class="pl-c1">=</span><span class="pl-v">MAX_LEN</span>, <span class="pl-s1">dtype</span><span class="pl-c1">=</span><span class="pl-s">"long"</span>, <span class="pl-s1">truncating</span><span class="pl-c1">=</span><span class="pl-s">"post"</span>, <span class="pl-s1">padding</span><span class="pl-c1">=</span><span class="pl-s">"post"</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC11" class="blob-code blob-code-inner js-file-line"><span class="pl-c"># Use the BERT tokenizer to convert the tokens to their index numbers in the BERT vocabulary</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L12" class="blob-num js-line-number" data-line-number="12"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC12" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">input_ids</span> <span class="pl-c1">=</span> [<span class="pl-s1">tokenizer</span>.<span class="pl-en">convert_tokens_to_ids</span>(<span class="pl-s1">x</span>) <span class="pl-k">for</span> <span class="pl-s1">x</span> <span class="pl-c1">in</span> <span class="pl-s1">tokenized_texts</span>]</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L13" class="blob-num js-line-number" data-line-number="13"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC13" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">input_ids</span> <span class="pl-c1">=</span> <span class="pl-en">pad_sequences</span>(<span class="pl-s1">input_ids</span>, <span class="pl-s1">maxlen</span><span class="pl-c1">=</span><span class="pl-v">MAX_LEN</span>, <span class="pl-s1">dtype</span><span class="pl-c1">=</span><span class="pl-s">"long"</span>, <span class="pl-s1">truncating</span><span class="pl-c1">=</span><span class="pl-s">"post"</span>, <span class="pl-s1">padding</span><span class="pl-c1">=</span><span class="pl-s">"post"</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L14" class="blob-num js-line-number" data-line-number="14"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC14" class="blob-code blob-code-inner js-file-line"><span class="pl-c"># Create attention masks</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L15" class="blob-num js-line-number" data-line-number="15"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC15" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">attention_masks</span> <span class="pl-c1">=</span> []</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L16" class="blob-num js-line-number" data-line-number="16"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC16" class="blob-code blob-code-inner js-file-line"><span class="pl-c"># Create a mask of 1s for each token followed by 0s for padding</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L17" class="blob-num js-line-number" data-line-number="17"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC17" class="blob-code blob-code-inner js-file-line"><span class="pl-k">for</span> <span class="pl-s1">seq</span> <span class="pl-c1">in</span> <span class="pl-s1">input_ids</span>:</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L18" class="blob-num js-line-number" data-line-number="18"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC18" class="blob-code blob-code-inner js-file-line">  <span class="pl-s1">seq_mask</span> <span class="pl-c1">=</span> [<span class="pl-en">float</span>(<span class="pl-s1">i</span><span class="pl-c1">&gt;</span><span class="pl-c1">0</span>) <span class="pl-k">for</span> <span class="pl-s1">i</span> <span class="pl-c1">in</span> <span class="pl-s1">seq</span>]</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L19" class="blob-num js-line-number" data-line-number="19"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC19" class="blob-code blob-code-inner js-file-line">  <span class="pl-s1">attention_masks</span>.<span class="pl-en">append</span>(<span class="pl-s1">seq_mask</span>) </td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L20" class="blob-num js-line-number" data-line-number="20"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC20" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L21" class="blob-num js-line-number" data-line-number="21"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC21" class="blob-code blob-code-inner js-file-line"><span class="pl-c"># create test tensors</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L22" class="blob-num js-line-number" data-line-number="22"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC22" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">prediction_inputs</span> <span class="pl-c1">=</span> <span class="pl-s1">torch</span>.<span class="pl-en">tensor</span>(<span class="pl-s1">input_ids</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L23" class="blob-num js-line-number" data-line-number="23"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC23" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">prediction_masks</span> <span class="pl-c1">=</span> <span class="pl-s1">torch</span>.<span class="pl-en">tensor</span>(<span class="pl-s1">attention_masks</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L24" class="blob-num js-line-number" data-line-number="24"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC24" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">prediction_labels</span> <span class="pl-c1">=</span> <span class="pl-s1">torch</span>.<span class="pl-en">tensor</span>(<span class="pl-s1">labels</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L25" class="blob-num js-line-number" data-line-number="25"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC25" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">batch_size</span> <span class="pl-c1">=</span> <span class="pl-c1">32</span>  </td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L26" class="blob-num js-line-number" data-line-number="26"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC26" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">prediction_data</span> <span class="pl-c1">=</span> <span class="pl-v">TensorDataset</span>(<span class="pl-s1">prediction_inputs</span>, <span class="pl-s1">prediction_masks</span>, <span class="pl-s1">prediction_labels</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L27" class="blob-num js-line-number" data-line-number="27"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC27" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">prediction_sampler</span> <span class="pl-c1">=</span> <span class="pl-v">SequentialSampler</span>(<span class="pl-s1">prediction_data</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L28" class="blob-num js-line-number" data-line-number="28"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC28" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">prediction_dataloader</span> <span class="pl-c1">=</span> <span class="pl-v">DataLoader</span>(<span class="pl-s1">prediction_data</span>, <span class="pl-s1">sampler</span><span class="pl-c1">=</span><span class="pl-s1">prediction_sampler</span>, <span class="pl-s1">batch_size</span><span class="pl-c1">=</span><span class="pl-s1">batch_size</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L29" class="blob-num js-line-number" data-line-number="29"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC29" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L30" class="blob-num js-line-number" data-line-number="30"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC30" class="blob-code blob-code-inner js-file-line"><span class="pl-c">## Prediction on test set</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L31" class="blob-num js-line-number" data-line-number="31"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC31" class="blob-code blob-code-inner js-file-line"><span class="pl-c"># Put model in evaluation mode</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L32" class="blob-num js-line-number" data-line-number="32"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC32" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">model</span>.<span class="pl-en">eval</span>()</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L33" class="blob-num js-line-number" data-line-number="33"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC33" class="blob-code blob-code-inner js-file-line"><span class="pl-c"># Tracking variables </span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L34" class="blob-num js-line-number" data-line-number="34"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC34" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">predictions</span> , <span class="pl-s1">true_labels</span> <span class="pl-c1">=</span> [], []</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L35" class="blob-num js-line-number" data-line-number="35"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC35" class="blob-code blob-code-inner js-file-line"><span class="pl-c"># Predict </span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L36" class="blob-num js-line-number" data-line-number="36"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC36" class="blob-code blob-code-inner js-file-line"><span class="pl-k">for</span> <span class="pl-s1">batch</span> <span class="pl-c1">in</span> <span class="pl-s1">prediction_dataloader</span>:</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L37" class="blob-num js-line-number" data-line-number="37"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC37" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"># Add batch to GPU</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L38" class="blob-num js-line-number" data-line-number="38"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC38" class="blob-code blob-code-inner js-file-line">  <span class="pl-s1">batch</span> <span class="pl-c1">=</span> <span class="pl-en">tuple</span>(<span class="pl-s1">t</span>.<span class="pl-en">to</span>(<span class="pl-s1">device</span>) <span class="pl-k">for</span> <span class="pl-s1">t</span> <span class="pl-c1">in</span> <span class="pl-s1">batch</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L39" class="blob-num js-line-number" data-line-number="39"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC39" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"># Unpack the inputs from our dataloader</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L40" class="blob-num js-line-number" data-line-number="40"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC40" class="blob-code blob-code-inner js-file-line">  <span class="pl-s1">b_input_ids</span>, <span class="pl-s1">b_input_mask</span>, <span class="pl-s1">b_labels</span> <span class="pl-c1">=</span> <span class="pl-s1">batch</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L41" class="blob-num js-line-number" data-line-number="41"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC41" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"># Telling the model not to compute or store gradients, saving memory and speeding up prediction</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L42" class="blob-num js-line-number" data-line-number="42"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC42" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">with</span> <span class="pl-s1">torch</span>.<span class="pl-en">no_grad</span>():</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L43" class="blob-num js-line-number" data-line-number="43"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC43" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"># Forward pass, calculate logit predictions</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L44" class="blob-num js-line-number" data-line-number="44"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC44" class="blob-code blob-code-inner js-file-line">    <span class="pl-s1">logits</span> <span class="pl-c1">=</span> <span class="pl-en">model</span>(<span class="pl-s1">b_input_ids</span>, <span class="pl-s1">token_type_ids</span><span class="pl-c1">=</span><span class="pl-c1">None</span>, <span class="pl-s1">attention_mask</span><span class="pl-c1">=</span><span class="pl-s1">b_input_mask</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L45" class="blob-num js-line-number" data-line-number="45"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC45" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"># Move logits and labels to CPU</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L46" class="blob-num js-line-number" data-line-number="46"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC46" class="blob-code blob-code-inner js-file-line">  <span class="pl-s1">logits</span> <span class="pl-c1">=</span> <span class="pl-s1">logits</span>.<span class="pl-en">detach</span>().<span class="pl-en">cpu</span>().<span class="pl-en">numpy</span>()</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L47" class="blob-num js-line-number" data-line-number="47"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC47" class="blob-code blob-code-inner js-file-line">  <span class="pl-s1">label_ids</span> <span class="pl-c1">=</span> <span class="pl-s1">b_labels</span>.<span class="pl-en">to</span>(<span class="pl-s">'cpu'</span>).<span class="pl-en">numpy</span>()  </td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L48" class="blob-num js-line-number" data-line-number="48"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC48" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"># Store predictions and true labels</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L49" class="blob-num js-line-number" data-line-number="49"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC49" class="blob-code blob-code-inner js-file-line">  <span class="pl-s1">predictions</span>.<span class="pl-en">append</span>(<span class="pl-s1">logits</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L50" class="blob-num js-line-number" data-line-number="50"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC50" class="blob-code blob-code-inner js-file-line">  <span class="pl-s1">true_labels</span>.<span class="pl-en">append</span>(<span class="pl-s1">label_ids</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L51" class="blob-num js-line-number" data-line-number="51"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC51" class="blob-code blob-code-inner js-file-line">  </td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L52" class="blob-num js-line-number" data-line-number="52"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC52" class="blob-code blob-code-inner js-file-line"><span class="pl-c"># Import and evaluate each test batch using Matthew's correlation coefficient</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L53" class="blob-num js-line-number" data-line-number="53"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC53" class="blob-code blob-code-inner js-file-line"><span class="pl-k">from</span> <span class="pl-s1">sklearn</span>.<span class="pl-s1">metrics</span> <span class="pl-k">import</span> <span class="pl-s1">matthews_corrcoef</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L54" class="blob-num js-line-number" data-line-number="54"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC54" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">matthews_set</span> <span class="pl-c1">=</span> []</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L55" class="blob-num js-line-number" data-line-number="55"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC55" class="blob-code blob-code-inner js-file-line"><span class="pl-k">for</span> <span class="pl-s1">i</span> <span class="pl-c1">in</span> <span class="pl-en">range</span>(<span class="pl-en">len</span>(<span class="pl-s1">true_labels</span>)):</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L56" class="blob-num js-line-number" data-line-number="56"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC56" class="blob-code blob-code-inner js-file-line">  <span class="pl-s1">matthews</span> <span class="pl-c1">=</span> <span class="pl-en">matthews_corrcoef</span>(<span class="pl-s1">true_labels</span>[<span class="pl-s1">i</span>],</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L57" class="blob-num js-line-number" data-line-number="57"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC57" class="blob-code blob-code-inner js-file-line">                 <span class="pl-s1">np</span>.<span class="pl-en">argmax</span>(<span class="pl-s1">predictions</span>[<span class="pl-s1">i</span>], <span class="pl-s1">axis</span><span class="pl-c1">=</span><span class="pl-c1">1</span>).<span class="pl-en">flatten</span>())</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L58" class="blob-num js-line-number" data-line-number="58"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC58" class="blob-code blob-code-inner js-file-line">  <span class="pl-s1">matthews_set</span>.<span class="pl-en">append</span>(<span class="pl-s1">matthews</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L59" class="blob-num js-line-number" data-line-number="59"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC59" class="blob-code blob-code-inner js-file-line">  </td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L60" class="blob-num js-line-number" data-line-number="60"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC60" class="blob-code blob-code-inner js-file-line"><span class="pl-c"># Flatten the predictions and true values for aggregate Matthew's evaluation on the whole dataset</span></td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L61" class="blob-num js-line-number" data-line-number="61"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC61" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">flat_predictions</span> <span class="pl-c1">=</span> [<span class="pl-s1">item</span> <span class="pl-k">for</span> <span class="pl-s1">sublist</span> <span class="pl-c1">in</span> <span class="pl-s1">predictions</span> <span class="pl-k">for</span> <span class="pl-s1">item</span> <span class="pl-c1">in</span> <span class="pl-s1">sublist</span>]</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L62" class="blob-num js-line-number" data-line-number="62"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC62" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">flat_predictions</span> <span class="pl-c1">=</span> <span class="pl-s1">np</span>.<span class="pl-en">argmax</span>(<span class="pl-s1">flat_predictions</span>, <span class="pl-s1">axis</span><span class="pl-c1">=</span><span class="pl-c1">1</span>).<span class="pl-en">flatten</span>()</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L63" class="blob-num js-line-number" data-line-number="63"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC63" class="blob-code blob-code-inner js-file-line"><span class="pl-s1">flat_true_labels</span> <span class="pl-c1">=</span> [<span class="pl-s1">item</span> <span class="pl-k">for</span> <span class="pl-s1">sublist</span> <span class="pl-c1">in</span> <span class="pl-s1">true_labels</span> <span class="pl-k">for</span> <span class="pl-s1">item</span> <span class="pl-c1">in</span> <span class="pl-s1">sublist</span>]</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L64" class="blob-num js-line-number" data-line-number="64"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC64" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-L65" class="blob-num js-line-number" data-line-number="65"></td>
+        <td id="file-bert_atis_classifier_evaluation_testdata-py-LC65" class="blob-code blob-code-inner js-file-line"><span class="pl-en">print</span>(<span class="pl-s">'Classification accuracy using BERT Fine Tuning: {0:0.2%}'</span>.<span class="pl-en">format</span>(<span class="pl-en">matthews_corrcoef</span>(<span class="pl-s1">flat_true_labels</span>, <span class="pl-s1">flat_predictions</span>)))</td>
+      </tr>
+</tbody></table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/michelkana/9252d6d8645b01f1bcce5040c7fd87cd/raw/796dc3b79f4f16e70d4ddc9e9881451a18934379/bert_atis_classifier_evaluation_testdata.py" style="float:right">view raw</a>
+        <a href="https://gist.github.com/michelkana/9252d6d8645b01f1bcce5040c7fd87cd#file-bert_atis_classifier_evaluation_testdata-py">bert_atis_classifier_evaluation_testdata.py</a>
+        hosted with ❤ by <a href="https://github.com/">GitHub</a>
+      </div>
+    </div>
+</div>
+<script>var height = -1; var delayMs = 200; if (document) {document.domain = document.domain;}function notifyResize(height) {height = height ? height : document.documentElement.offsetHeight; var resized = false; if (window.donkey && donkey.resize) {donkey.resize(height);var elements = document.getElementsByClassName("gist-data"); for (var i = 0; i < elements.length; i++) {elements[i].style.overflow = "visible"}resized = true;}if (parent && parent._resizeIframe) {var obj = {iframe: window.frameElement, height: height}; parent._resizeIframe(obj); resized = true;}if (window.location && window.location.hash === "#amp=1" && window.parent && window.parent.postMessage) {window.parent.postMessage({sentinel: "amp", type: "embed-size", height: height}, "*");}if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.resize) {window.webkit.messageHandlers.resize.postMessage(height); resized = true;}return resized;}function maybeResize() {try {if (document.documentElement.offsetHeight != height && notifyResize()) {height = document.documentElement.offsetHeight;}delayMs = Math.min(delayMs * 2, 1000000); setTimeout(maybeResize, delayMs);} catch(error) {console.log('maybeResize error: ', error)}}maybeResize();</script></body></html>
