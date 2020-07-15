@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<!-- saved from url=(0077)https://www.depends-on-the-definition.com/named-entity-recognition-with-bert/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style id="stndz-style"></style><meta name="viewport" content="width=device-width,initial-scale=1"><title>Named entity recognition with Bert | Depends on the definition</title><meta property="og:title" content="Named entity recognition with Bert - Depends on the definition"><meta property="og:description" content="In 2018 we saw the rise of pretraining and finetuning in natural language processing. Large neural networks have been trained on general tasks like language modeling and then fine-tuned for classification tasks. One of the latest milestones in this development is the release of BERT. BERT is a model that broke several records for how well models can handle language-based tasks. If you want more details about the model and the pre-training, you find some resources at the end of this post."><meta property="og:url" content="https://www.depends-on-the-definition.com/named-entity-recognition-with-bert/"><meta property="og:site_name" content="Depends on the definition"><meta property="og:type" content="article"><meta property="og:image" content="https://www.depends-on-the-definition.com/images/named-entity-recognition-with-bert_files/bert-input-output.png"><meta property="article:published_time" content="2018-12-10T00:00:00Z"><meta property="article:modified_time" content="2020-05-31T15:38:03+02:00"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@tobias_sterbak"><meta name="twitter:creator" content="@tobias_sterbak"><link href="https://www.depends-on-the-definition.com/index.xml" rel="alternate" type="application/rss+xml" title="Depends on the definition"><link rel="stylesheet" href="./Named entity recognition with Bert _ Depends on the definition_files/style.css"><link rel="stylesheet" href="./Named entity recognition with Bert _ Depends on the definition_files/custom.css"><link rel="apple-touch-icon" sizes="180x180" href="https://www.depends-on-the-definition.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://www.depends-on-the-definition.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://www.depends-on-the-definition.com/favicon-16x16.png"><link rel="manifest" href="https://www.depends-on-the-definition.com/site.webmanifest"><link rel="mask-icon" href="https://www.depends-on-the-definition.com/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://www.depends-on-the-definition.com/named-entity-recognition-with-bert/"><meta name="msapplication-TileColor" content="#da532c"><meta name="theme-color" content="#ffffff"><script src="./Named entity recognition with Bert _ Depends on the definition_files/179a4f50f65f1c84b1de67671b83ec44a44e0c14.js.download"></script><script async="" defer="" data-domain="depends-on-the-definition.com" src="./Named entity recognition with Bert _ Depends on the definition_files/index.js.download"></script><script>window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}</script><script src="./Named entity recognition with Bert _ Depends on the definition_files/feather.min.js.download"></script><meta name="google-site-verification" content="545p683uBYQ_3gDVcCO4hQZCIFalfxuX_LneJP9lxFk"></head><body data-gr-c-s-loaded="true"><div class="progress-header"><div class="progress-container" style="position:fixed;top:0;z-index:2"><div class="progress-bar" id="myBar" style="width: 0%;"></div></div></div><section class="section"><div class="container"><nav id="nav-main" class="nav"><div id="nav-name" class="nav-left"><a id="nav-anchor" class="nav-item" href="https://www.depends-on-the-definition.com/"><img src="./Named entity recognition with Bert _ Depends on the definition_files/header_icon_d.png"><h1 id="nav-heading" class="title is-4">epends on the definition</h1></a></div><div class="nav-right"><nav id="nav-items" class="nav-item level is-mobile"><a class="level-item" aria-label="about" href="https://www.depends-on-the-definition.com/about/"><span class="icon"><i><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></i></span></a><a class="level-item" aria-label="work-with-me" href="https://www.depends-on-the-definition.com/work-with-me/"><span class="icon"><i><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></i></span></a><a class="level-item" aria-label="twitter" href="https://twitter.com/tobias_sterbak" target="_blank" rel="noopener"><span class="icon"><i><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><path d="M23 3a10.9 10.9.0 01-3.14 1.53 4.48 4.48.0 00-7.86 3v1A10.66 10.66.0 013 4s-4 9 5 13a11.64 11.64.0 01-7 2c9 5 20 0 20-11.5a4.5 4.5.0 00-.08-.83A7.72 7.72.0 0023 3z"></path></svg></i></span></a><a class="level-item" aria-label="github" href="https://github.com/tsterbak" target="_blank" rel="noopener"><span class="icon"><i><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77a5.44 5.44.0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"></path></svg></i></span></a><a class="level-item" aria-label="linkedin" href="https://linkedin.com/in/tobias-sterbak" target="_blank" rel="noopener"><span class="icon"><i><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><path stroke-width="1.8" d="m5.839218 4.101561c0 1.211972-.974141 2.194011-2.176459 2.194011S1.4863 5.313533 1.4863 4.101561c0-1.211094.974141-2.194011 2.176459-2.194011s2.176459.982917 2.176459 2.194011zm.017552 3.94922h-4.388022v14.04167H5.85677V8.050781zm7.005038.0H8.501869v14.04167h4.360816v-7.370999c0-4.098413 5.291077-4.433657 5.291077.0v7.370999h4.377491v-8.89101c0-6.915523-7.829986-6.66365-9.669445-3.259423V8.050781z"></path></svg></i></span></a><a class="level-item" aria-label="email" href="mailto:info@depends-on-the-definition.com" target="_blank" rel="noopener"><span class="icon"><i><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1.0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1.0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></i></span></a></nav></div></nav><nav class="nav"></nav></div><script src="./Named entity recognition with Bert _ Depends on the definition_files/navicon-shift.js.download"></script></section><section class="section"><div class="toc"><aside><nav id="TableOfContents"><ul><li><a href="https://www.depends-on-the-definition.com/named-entity-recognition-with-bert/#load-the-data">Load the data</a></li><li><a href="https://www.depends-on-the-definition.com/named-entity-recognition-with-bert/#apply-bert">Apply Bert</a><ul><li><a href="https://www.depends-on-the-definition.com/named-entity-recognition-with-bert/#prepare-the-sentences-and-labels">Prepare the sentences and labels</a></li></ul></li><li><a href="https://www.depends-on-the-definition.com/named-entity-recognition-with-bert/#setup-the-bert-model-for-finetuning">Setup the Bert model for finetuning</a></li><li><a href="https://www.depends-on-the-definition.com/named-entity-recognition-with-bert/#fit-bert-for-named-entity-recognition">Fit BERT for named entity recognition</a><ul><li><a href="https://www.depends-on-the-definition.com/named-entity-recognition-with-bert/#visualize-the-training-loss">Visualize the training loss</a></li></ul></li><li><a href="https://www.depends-on-the-definition.com/named-entity-recognition-with-bert/#apply-the-model-to-a-new-sentence">Apply the model to a new sentence</a></li><li><a href="https://www.depends-on-the-definition.com/named-entity-recognition-with-bert/#resources">Resources</a></li></ul></nav></aside></div><div class="container"><div><button onclick="topFunction()" id="myBtn" title="Go to top" style="display: none; overflow: visible;">
+<svg xmlns="http://www.w3.org/2000/svg" width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-up"><polyline points="18 15 12 9 6 15"></polyline></svg><script>feather.replace({'stroke-width':1,width:"54",height:"54",viewBox:"0 0 24 24"})</script></button></div><div class="subtitle tags is-6 is-pulled-right"><a class="subtitle is-6" href="https://www.depends-on-the-definition.com/tags/named-entity-recognition">#Named entity recognition</a>
+| <a class="subtitle is-6" href="https://www.depends-on-the-definition.com/tags/nlp">#NLP</a>
+| <a class="subtitle is-6" href="https://www.depends-on-the-definition.com/tags/deep-learning">#deep learning</a></div><h2 class="subtitle is-6">2018-12-10
+| Last updated: 2020-04-24</h2><br><h1 class="title">Named entity recognition with Bert</h1><div class="content"><p><img src="./Named entity recognition with Bert _ Depends on the definition_files/bert-input-output.png" alt="bert"></p><p>In 2018 we saw the rise of pretraining and finetuning in natural language processing. Large neural networks have been trained on general tasks like language modeling and then fine-tuned for classification tasks. One of the latest milestones in this development is the release of BERT. BERT is a model that broke several records for how well models can handle language-based tasks. If you want more details about the model and the pre-training, you find some resources at the end of this post.</p><p>This is a new post in <a href="https://www.depends-on-the-definition.com/tags/named-entity-recognition/">my NER series</a>. I will show you how you can finetune the Bert model to do state-of-the art named entity recognition. First you install the <a href="https://github.com/huggingface/transformers">amazing transformers package</a> by huggingface with</p><p><code>pip install transformers=2.6.0</code></p><p>Now you have access to many transformer-based models including the pre-trained Bert models in pytorch.</p><h2 id="load-the-data">Load the data</h2><p>We use the data set, you already know from my previous posts about named entity recognition.
+If you want to run the tutorial yourself, you can <a href="https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus#ner_dataset.csv">find the dataset here</a>.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:700">import</span> <span style="color:#0e84b5;font-weight:700">pandas</span> <span style="color:#007020;font-weight:700">as</span> <span style="color:#0e84b5;font-weight:700">pd</span>
+<span style="color:#007020;font-weight:700">import</span> <span style="color:#0e84b5;font-weight:700">numpy</span> <span style="color:#007020;font-weight:700">as</span> <span style="color:#0e84b5;font-weight:700">np</span>
+<span style="color:#007020;font-weight:700">from</span> <span style="color:#0e84b5;font-weight:700">tqdm</span> <span style="color:#007020;font-weight:700">import</span> tqdm, trange
+
+data <span style="color:#666">=</span> pd<span style="color:#666">.</span>read_csv(<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">ner_dataset.csv</span><span style="color:#4070a0">"</span>, encoding<span style="color:#666">=</span><span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">latin1</span><span style="color:#4070a0">"</span>)<span style="color:#666">.</span>fillna(method<span style="color:#666">=</span><span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">ffill</span><span style="color:#4070a0">"</span>)
+data<span style="color:#666">.</span>tail(<span style="color:#40a070">10</span>)
+</code></pre></div><div class="scrolltable"><style scoped="">.dataframe tbody tr th:only-of-type{vertical-align:middle}<pre><code>.dataframe tbody tr th{vertical-align:top}.dataframe thead th{text-align:right}</code></pre><p></style><p></p><table border="1" class="dataframe"><thead><tr style="text-align:right"><th></th><th>Sentence #</th><th>Word</th><th>POS</th><th>Tag</th></tr></thead><tbody><tr><th>1048565</th><td>Sentence: 47958</td><td>impact</td><td>NN</td><td>O</td></tr><tr><th>1048566</th><td>Sentence: 47958</td><td>.</td><td>.</td><td>O</td></tr><tr><th>1048567</th><td>Sentence: 47959</td><td>Indian</td><td>JJ</td><td>B-gpe</td></tr><tr><th>1048568</th><td>Sentence: 47959</td><td>forces</td><td>NNS</td><td>O</td></tr><tr><th>1048569</th><td>Sentence: 47959</td><td>said</td><td>VBD</td><td>O</td></tr><tr><th>1048570</th><td>Sentence: 47959</td><td>they</td><td>PRP</td><td>O</td></tr><tr><th>1048571</th><td>Sentence: 47959</td><td>responded</td><td>VBD</td><td>O</td></tr><tr><th>1048572</th><td>Sentence: 47959</td><td>to</td><td>TO</td><td>O</td></tr><tr><th>1048573</th><td>Sentence: 47959</td><td>the</td><td>DT</td><td>O</td></tr><tr><th>1048574</th><td>Sentence: 47959</td><td>attack</td><td>NN</td><td>O</td></tr></tbody></table></div><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:700">class</span> <span style="color:#0e84b5;font-weight:700">SentenceGetter</span>(<span style="color:#007020">object</span>):
+
+    <span style="color:#007020;font-weight:700">def</span> __init__(self, data):
+        self<span style="color:#666">.</span>n_sent <span style="color:#666">=</span> <span style="color:#40a070">1</span>
+        self<span style="color:#666">.</span>data <span style="color:#666">=</span> data
+        self<span style="color:#666">.</span>empty <span style="color:#666">=</span> False
+        agg_func <span style="color:#666">=</span> <span style="color:#007020;font-weight:700">lambda</span> s: [(w, p, t) <span style="color:#007020;font-weight:700">for</span> w, p, t <span style="color:#007020;font-weight:700">in</span> <span style="color:#007020">zip</span>(s[<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">Word</span><span style="color:#4070a0">"</span>]<span style="color:#666">.</span>values<span style="color:#666">.</span>tolist(),
+                                                           s[<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">POS</span><span style="color:#4070a0">"</span>]<span style="color:#666">.</span>values<span style="color:#666">.</span>tolist(),
+                                                           s[<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">Tag</span><span style="color:#4070a0">"</span>]<span style="color:#666">.</span>values<span style="color:#666">.</span>tolist())]
+        self<span style="color:#666">.</span>grouped <span style="color:#666">=</span> self<span style="color:#666">.</span>data<span style="color:#666">.</span>groupby(<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">Sentence #</span><span style="color:#4070a0">"</span>)<span style="color:#666">.</span>apply(agg_func)
+        self<span style="color:#666">.</span>sentences <span style="color:#666">=</span> [s <span style="color:#007020;font-weight:700">for</span> s <span style="color:#007020;font-weight:700">in</span> self<span style="color:#666">.</span>grouped]
+
+    <span style="color:#007020;font-weight:700">def</span> <span style="color:#06287e">get_next</span>(self):
+        <span style="color:#007020;font-weight:700">try</span>:
+            s <span style="color:#666">=</span> self<span style="color:#666">.</span>grouped[<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">Sentence: {}</span><span style="color:#4070a0">"</span><span style="color:#666">.</span>format(self<span style="color:#666">.</span>n_sent)]
+            self<span style="color:#666">.</span>n_sent <span style="color:#666">+</span><span style="color:#666">=</span> <span style="color:#40a070">1</span>
+            <span style="color:#007020;font-weight:700">return</span> s
+        <span style="color:#007020;font-weight:700">except</span>:
+            <span style="color:#007020;font-weight:700">return</span> None
+</code></pre></div><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">getter <span style="color:#666">=</span> SentenceGetter(data)
+</code></pre></div><p>This is how the sentences in the dataset look like.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">sentences <span style="color:#666">=</span> [[word[<span style="color:#40a070">0</span>] <span style="color:#007020;font-weight:700">for</span> word <span style="color:#007020;font-weight:700">in</span> sentence] <span style="color:#007020;font-weight:700">for</span> sentence <span style="color:#007020;font-weight:700">in</span> getter<span style="color:#666">.</span>sentences]
+sentences[<span style="color:#40a070">0</span>]
+</code></pre></div><button class="copy-code-button" type="button">Copy</button><pre><code>['Thousands',
+ 'of',
+ 'demonstrators',
+ 'have',
+ 'marched',
+ 'through',
+ 'London',
+ 'to',
+ 'protest',
+ 'the',
+ 'war',
+ 'in',
+ 'Iraq',
+ 'and',
+ 'demand',
+ 'the',
+ 'withdrawal',
+ 'of',
+ 'British',
+ 'troops',
+ 'from',
+ 'that',
+ 'country',
+ '.']
+</code></pre><p>The sentences are annotated with the BIO-schema and the labels look like this.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">labels <span style="color:#666">=</span> [[s[<span style="color:#40a070">2</span>] <span style="color:#007020;font-weight:700">for</span> s <span style="color:#007020;font-weight:700">in</span> sentence] <span style="color:#007020;font-weight:700">for</span> sentence <span style="color:#007020;font-weight:700">in</span> getter<span style="color:#666">.</span>sentences]
+<span style="color:#007020;font-weight:700">print</span>(labels[<span style="color:#40a070">0</span>])
+</code></pre></div><button class="copy-code-button" type="button">Copy</button><pre><code>['O', 'O', 'O', 'O', 'O', 'O', 'B-geo', 'O', 'O', 'O', 'O', 'O', 'B-geo', 'O', 'O', 'O', 'O', 'O', 'B-gpe', 'O', 'O', 'O', 'O', 'O']
+</code></pre><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tag_values <span style="color:#666">=</span> <span style="color:#007020">list</span>(<span style="color:#007020">set</span>(data[<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">Tag</span><span style="color:#4070a0">"</span>]<span style="color:#666">.</span>values))
+tag_values<span style="color:#666">.</span>append(<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">PAD</span><span style="color:#4070a0">"</span>)
+tag2idx <span style="color:#666">=</span> {t: i <span style="color:#007020;font-weight:700">for</span> i, t <span style="color:#007020;font-weight:700">in</span> <span style="color:#007020">enumerate</span>(tag_values)}
+</code></pre></div><h2 id="apply-bert">Apply Bert</h2><h3 id="prepare-the-sentences-and-labels">Prepare the sentences and labels</h3><p>Before we can start fine-tuning the model, we have to prepare the data set for the use with pytorch and BERT.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:700">import</span> <span style="color:#0e84b5;font-weight:700">torch</span>
+<span style="color:#007020;font-weight:700">from</span> <span style="color:#0e84b5;font-weight:700">torch.utils.data</span> <span style="color:#007020;font-weight:700">import</span> TensorDataset, DataLoader, RandomSampler, SequentialSampler
+<span style="color:#007020;font-weight:700">from</span> <span style="color:#0e84b5;font-weight:700">transformers</span> <span style="color:#007020;font-weight:700">import</span> BertTokenizer, BertConfig
+
+<span style="color:#007020;font-weight:700">from</span> <span style="color:#0e84b5;font-weight:700">keras.preprocessing.sequence</span> <span style="color:#007020;font-weight:700">import</span> pad_sequences
+<span style="color:#007020;font-weight:700">from</span> <span style="color:#0e84b5;font-weight:700">sklearn.model_selection</span> <span style="color:#007020;font-weight:700">import</span> train_test_split
+
+torch<span style="color:#666">.</span>__version__
+</code></pre></div><button class="copy-code-button" type="button">Copy</button><pre><code>Using TensorFlow backend.
+
+
+
+'1.2.0'
+</code></pre><p>Here we fix some configurations. We will limit our sequence length to 75 tokens and we will use a batch size of 32 as suggested by the Bert paper. Note, that Bert supports sequences of up to 512 tokens.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">MAX_LEN <span style="color:#666">=</span> <span style="color:#40a070">75</span>
+bs <span style="color:#666">=</span> <span style="color:#40a070">32</span>
+</code></pre></div><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">device <span style="color:#666">=</span> torch<span style="color:#666">.</span>device(<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">cuda</span><span style="color:#4070a0">"</span> <span style="color:#007020;font-weight:700">if</span> torch<span style="color:#666">.</span>cuda<span style="color:#666">.</span>is_available() <span style="color:#007020;font-weight:700">else</span> <span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">cpu</span><span style="color:#4070a0">"</span>)
+n_gpu <span style="color:#666">=</span> torch<span style="color:#666">.</span>cuda<span style="color:#666">.</span>device_count()
+</code></pre></div><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">torch<span style="color:#666">.</span>cuda<span style="color:#666">.</span>get_device_name(<span style="color:#40a070">0</span>)
+</code></pre></div><button class="copy-code-button" type="button">Copy</button><pre><code>'GeForce GTX 1080 Ti'
+</code></pre><p>The Bert implementation comes with a pretrained tokenizer and a definied vocabulary. We load the one related to the smallest pre-trained model <code>bert-base-cased</code>. We use the <code>cased</code> variate since it is well suited for NER.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tokenizer <span style="color:#666">=</span> BertTokenizer<span style="color:#666">.</span>from_pretrained(<span style="color:#4070a0"></span><span style="color:#4070a0">'</span><span style="color:#4070a0">bert-base-cased</span><span style="color:#4070a0">'</span>, do_lower_case<span style="color:#666">=</span>False)
+</code></pre></div><p>Now we tokenize all sentences. Since the BERT tokenizer is based a <a href="https://blog.floydhub.com/tokenization-nlp/">Wordpiece tokenizer</a> it will split tokens in subword tokens. For example ‘gunships’ will be split in the two tokens ‘guns’ and ‘##hips’.
+We have to deal with the issue of splitting our token-level labels to related subtokens. In practice you would solve this by a specialized data structure based on label spans, but for simplicity I do it explicitly here.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:700">def</span> <span style="color:#06287e">tokenize_and_preserve_labels</span>(sentence, text_labels):
+    tokenized_sentence <span style="color:#666">=</span> []
+    labels <span style="color:#666">=</span> []
+
+    <span style="color:#007020;font-weight:700">for</span> word, label <span style="color:#007020;font-weight:700">in</span> <span style="color:#007020">zip</span>(sentence, text_labels):
+
+        <span style="color:#60a0b0;font-style:italic"># Tokenize the word and count # of subwords the word is broken into</span>
+        tokenized_word <span style="color:#666">=</span> tokenizer<span style="color:#666">.</span>tokenize(word)
+        n_subwords <span style="color:#666">=</span> <span style="color:#007020">len</span>(tokenized_word)
+
+        <span style="color:#60a0b0;font-style:italic"># Add the tokenized word to the final tokenized word list</span>
+        tokenized_sentence<span style="color:#666">.</span>extend(tokenized_word)
+
+        <span style="color:#60a0b0;font-style:italic"># Add the same label to the new list of labels `n_subwords` times</span>
+        labels<span style="color:#666">.</span>extend([label] <span style="color:#666">*</span> n_subwords)
+
+    <span style="color:#007020;font-weight:700">return</span> tokenized_sentence, labels
+</code></pre></div><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tokenized_texts_and_labels <span style="color:#666">=</span> [
+    tokenize_and_preserve_labels(sent, labs)
+    <span style="color:#007020;font-weight:700">for</span> sent, labs <span style="color:#007020;font-weight:700">in</span> <span style="color:#007020">zip</span>(sentences, labels)
+]
+</code></pre></div><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tokenized_texts <span style="color:#666">=</span> [token_label_pair[<span style="color:#40a070">0</span>] <span style="color:#007020;font-weight:700">for</span> token_label_pair <span style="color:#007020;font-weight:700">in</span> tokenized_texts_and_labels]
+labels <span style="color:#666">=</span> [token_label_pair[<span style="color:#40a070">1</span>] <span style="color:#007020;font-weight:700">for</span> token_label_pair <span style="color:#007020;font-weight:700">in</span> tokenized_texts_and_labels]
+</code></pre></div><p>Next, we cut and pad the token and label sequences to our desired length.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">input_ids <span style="color:#666">=</span> pad_sequences([tokenizer<span style="color:#666">.</span>convert_tokens_to_ids(txt) <span style="color:#007020;font-weight:700">for</span> txt <span style="color:#007020;font-weight:700">in</span> tokenized_texts],
+                          maxlen<span style="color:#666">=</span>MAX_LEN, dtype<span style="color:#666">=</span><span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">long</span><span style="color:#4070a0">"</span>, value<span style="color:#666">=</span><span style="color:#40a070">0.0</span>,
+                          truncating<span style="color:#666">=</span><span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">post</span><span style="color:#4070a0">"</span>, padding<span style="color:#666">=</span><span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">post</span><span style="color:#4070a0">"</span>)
+</code></pre></div><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tags <span style="color:#666">=</span> pad_sequences([[tag2idx<span style="color:#666">.</span>get(l) <span style="color:#007020;font-weight:700">for</span> l <span style="color:#007020;font-weight:700">in</span> lab] <span style="color:#007020;font-weight:700">for</span> lab <span style="color:#007020;font-weight:700">in</span> labels],
+                     maxlen<span style="color:#666">=</span>MAX_LEN, value<span style="color:#666">=</span>tag2idx[<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">PAD</span><span style="color:#4070a0">"</span>], padding<span style="color:#666">=</span><span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">post</span><span style="color:#4070a0">"</span>,
+                     dtype<span style="color:#666">=</span><span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">long</span><span style="color:#4070a0">"</span>, truncating<span style="color:#666">=</span><span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">post</span><span style="color:#4070a0">"</span>)
+</code></pre></div><p>The Bert model supports something called <code>attention_mask</code>, which is similar to the masking in keras. So here we create the mask to ignore the padded elements in the sequences.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">attention_masks <span style="color:#666">=</span> [[<span style="color:#007020">float</span>(i <span style="color:#666">!=</span> <span style="color:#40a070">0.0</span>) <span style="color:#007020;font-weight:700">for</span> i <span style="color:#007020;font-weight:700">in</span> ii] <span style="color:#007020;font-weight:700">for</span> ii <span style="color:#007020;font-weight:700">in</span> input_ids]
+</code></pre></div><p>Now we split the dataset to use 10% to validate the model.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tr_inputs, val_inputs, tr_tags, val_tags <span style="color:#666">=</span> train_test_split(input_ids, tags,
+                                                            random_state<span style="color:#666">=</span><span style="color:#40a070">2018</span>, test_size<span style="color:#666">=</span><span style="color:#40a070">0.1</span>)
+tr_masks, val_masks, _, _ <span style="color:#666">=</span> train_test_split(attention_masks, input_ids,
+                                             random_state<span style="color:#666">=</span><span style="color:#40a070">2018</span>, test_size<span style="color:#666">=</span><span style="color:#40a070">0.1</span>)
+</code></pre></div><p>Since we’re operating in pytorch, we have to convert the dataset to torch tensors.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tr_inputs <span style="color:#666">=</span> torch<span style="color:#666">.</span>tensor(tr_inputs)
+val_inputs <span style="color:#666">=</span> torch<span style="color:#666">.</span>tensor(val_inputs)
+tr_tags <span style="color:#666">=</span> torch<span style="color:#666">.</span>tensor(tr_tags)
+val_tags <span style="color:#666">=</span> torch<span style="color:#666">.</span>tensor(val_tags)
+tr_masks <span style="color:#666">=</span> torch<span style="color:#666">.</span>tensor(tr_masks)
+val_masks <span style="color:#666">=</span> torch<span style="color:#666">.</span>tensor(val_masks)
+</code></pre></div><p>The last step is to define the dataloaders. We shuffle the data at training time with the <code>RandomSampler</code> and at test time we just pass them sequentially with the <code>SequentialSampler</code>.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">train_data <span style="color:#666">=</span> TensorDataset(tr_inputs, tr_masks, tr_tags)
+train_sampler <span style="color:#666">=</span> RandomSampler(train_data)
+train_dataloader <span style="color:#666">=</span> DataLoader(train_data, sampler<span style="color:#666">=</span>train_sampler, batch_size<span style="color:#666">=</span>bs)
+
+valid_data <span style="color:#666">=</span> TensorDataset(val_inputs, val_masks, val_tags)
+valid_sampler <span style="color:#666">=</span> SequentialSampler(valid_data)
+valid_dataloader <span style="color:#666">=</span> DataLoader(valid_data, sampler<span style="color:#666">=</span>valid_sampler, batch_size<span style="color:#666">=</span>bs)
+</code></pre></div><h2 id="setup-the-bert-model-for-finetuning">Setup the Bert model for finetuning</h2><p><img src="./Named entity recognition with Bert _ Depends on the definition_files/bert.png" alt="finetune-bert"></p><p>The <code>transformer</code> package provides a <code>BertForTokenClassification</code> class for token-level predictions.
+<code>BertForTokenClassification</code> is a fine-tuning model that wraps <code>BertModel</code> and adds token-level classifier on top of the <code>BertModel</code>. The token-level classifier is a linear layer that takes as input the last hidden state of the sequence. We load the pre-trained <code>bert-base-cased</code> model and provide the number of possible labels.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:700">import</span> <span style="color:#0e84b5;font-weight:700">transformers</span>
+<span style="color:#007020;font-weight:700">from</span> <span style="color:#0e84b5;font-weight:700">transformers</span> <span style="color:#007020;font-weight:700">import</span> BertForTokenClassification, AdamW
+
+transformers<span style="color:#666">.</span>__version__
+</code></pre></div><button class="copy-code-button" type="button">Copy</button><pre><code>'2.6.0'
+</code></pre><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">model <span style="color:#666">=</span> BertForTokenClassification<span style="color:#666">.</span>from_pretrained(
+    <span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">bert-base-cased</span><span style="color:#4070a0">"</span>,
+    num_labels<span style="color:#666">=</span><span style="color:#007020">len</span>(tag2idx),
+    output_attentions <span style="color:#666">=</span> False,
+    output_hidden_states <span style="color:#666">=</span> False
+)
+</code></pre></div><p>Now we have to pass the model parameters to the GPU.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">model<span style="color:#666">.</span>cuda();
+</code></pre></div><p>Before we can start the fine-tuning process, we have to setup the optimizer and add the parameters it should update. A common choice is the <code>AdamW</code> optimizer. We also add some <code>weight_decay</code> as regularization to the main weight matrices. If you have limited resources, you can also try to just train the linear classifier on top of BERT and keep all other weights fixed. This will still give you a good performance.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">FULL_FINETUNING <span style="color:#666">=</span> True
+<span style="color:#007020;font-weight:700">if</span> FULL_FINETUNING:
+    param_optimizer <span style="color:#666">=</span> <span style="color:#007020">list</span>(model<span style="color:#666">.</span>named_parameters())
+    no_decay <span style="color:#666">=</span> [<span style="color:#4070a0"></span><span style="color:#4070a0">'</span><span style="color:#4070a0">bias</span><span style="color:#4070a0">'</span>, <span style="color:#4070a0"></span><span style="color:#4070a0">'</span><span style="color:#4070a0">gamma</span><span style="color:#4070a0">'</span>, <span style="color:#4070a0"></span><span style="color:#4070a0">'</span><span style="color:#4070a0">beta</span><span style="color:#4070a0">'</span>]
+    optimizer_grouped_parameters <span style="color:#666">=</span> [
+        {<span style="color:#4070a0"></span><span style="color:#4070a0">'</span><span style="color:#4070a0">params</span><span style="color:#4070a0">'</span>: [p <span style="color:#007020;font-weight:700">for</span> n, p <span style="color:#007020;font-weight:700">in</span> param_optimizer <span style="color:#007020;font-weight:700">if</span> <span style="color:#007020;font-weight:700">not</span> <span style="color:#007020">any</span>(nd <span style="color:#007020;font-weight:700">in</span> n <span style="color:#007020;font-weight:700">for</span> nd <span style="color:#007020;font-weight:700">in</span> no_decay)],
+         <span style="color:#4070a0"></span><span style="color:#4070a0">'</span><span style="color:#4070a0">weight_decay_rate</span><span style="color:#4070a0">'</span>: <span style="color:#40a070">0.01</span>},
+        {<span style="color:#4070a0"></span><span style="color:#4070a0">'</span><span style="color:#4070a0">params</span><span style="color:#4070a0">'</span>: [p <span style="color:#007020;font-weight:700">for</span> n, p <span style="color:#007020;font-weight:700">in</span> param_optimizer <span style="color:#007020;font-weight:700">if</span> <span style="color:#007020">any</span>(nd <span style="color:#007020;font-weight:700">in</span> n <span style="color:#007020;font-weight:700">for</span> nd <span style="color:#007020;font-weight:700">in</span> no_decay)],
+         <span style="color:#4070a0"></span><span style="color:#4070a0">'</span><span style="color:#4070a0">weight_decay_rate</span><span style="color:#4070a0">'</span>: <span style="color:#40a070">0.0</span>}
+    ]
+<span style="color:#007020;font-weight:700">else</span>:
+    param_optimizer <span style="color:#666">=</span> <span style="color:#007020">list</span>(model<span style="color:#666">.</span>classifier<span style="color:#666">.</span>named_parameters())
+    optimizer_grouped_parameters <span style="color:#666">=</span> [{<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">params</span><span style="color:#4070a0">"</span>: [p <span style="color:#007020;font-weight:700">for</span> n, p <span style="color:#007020;font-weight:700">in</span> param_optimizer]}]
+
+optimizer <span style="color:#666">=</span> AdamW(
+    optimizer_grouped_parameters,
+    lr<span style="color:#666">=</span><span style="color:#40a070">3e-5</span>,
+    eps<span style="color:#666">=</span><span style="color:#40a070">1e-8</span>
+)
+</code></pre></div><p>We also add a scheduler to linearly reduce the learning rate throughout the epochs.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:700">from</span> <span style="color:#0e84b5;font-weight:700">transformers</span> <span style="color:#007020;font-weight:700">import</span> get_linear_schedule_with_warmup
+
+epochs <span style="color:#666">=</span> <span style="color:#40a070">3</span>
+max_grad_norm <span style="color:#666">=</span> <span style="color:#40a070">1.0</span>
+
+<span style="color:#60a0b0;font-style:italic"># Total number of training steps is number of batches * number of epochs.</span>
+total_steps <span style="color:#666">=</span> <span style="color:#007020">len</span>(train_dataloader) <span style="color:#666">*</span> epochs
+
+<span style="color:#60a0b0;font-style:italic"># Create the learning rate scheduler.</span>
+scheduler <span style="color:#666">=</span> get_linear_schedule_with_warmup(
+    optimizer,
+    num_warmup_steps<span style="color:#666">=</span><span style="color:#40a070">0</span>,
+    num_training_steps<span style="color:#666">=</span>total_steps
+)
+</code></pre></div><h2 id="fit-bert-for-named-entity-recognition">Fit BERT for named entity recognition</h2><p>First we define some metrics, we want to track while training. We use the <code>f1_score</code> from the seqeval package. You ca find more details here. And we use simple accuracy on a token level comparable to the accuracy in keras.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:700">from</span> <span style="color:#0e84b5;font-weight:700">seqeval.metrics</span> <span style="color:#007020;font-weight:700">import</span> f1_score, accuracy_score
+</code></pre></div><p>Finally, we can finetune the model. A few epochs should be enougth. The paper suggest 3-4 epochs.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#60a0b0;font-style:italic">## Store the average loss after each epoch so we can plot them.</span>
+loss_values, validation_loss_values <span style="color:#666">=</span> [], []
+
+<span style="color:#007020;font-weight:700">for</span> _ <span style="color:#007020;font-weight:700">in</span> trange(epochs, desc<span style="color:#666">=</span><span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">Epoch</span><span style="color:#4070a0">"</span>):
+    <span style="color:#60a0b0;font-style:italic"># ========================================</span>
+    <span style="color:#60a0b0;font-style:italic">#               Training</span>
+    <span style="color:#60a0b0;font-style:italic"># ========================================</span>
+    <span style="color:#60a0b0;font-style:italic"># Perform one full pass over the training set.</span>
+
+    <span style="color:#60a0b0;font-style:italic"># Put the model into training mode.</span>
+    model<span style="color:#666">.</span>train()
+    <span style="color:#60a0b0;font-style:italic"># Reset the total loss for this epoch.</span>
+    total_loss <span style="color:#666">=</span> <span style="color:#40a070">0</span>
+
+    <span style="color:#60a0b0;font-style:italic"># Training loop</span>
+    <span style="color:#007020;font-weight:700">for</span> step, batch <span style="color:#007020;font-weight:700">in</span> <span style="color:#007020">enumerate</span>(train_dataloader):
+        <span style="color:#60a0b0;font-style:italic"># add batch to gpu</span>
+        batch <span style="color:#666">=</span> <span style="color:#007020">tuple</span>(t<span style="color:#666">.</span>to(device) <span style="color:#007020;font-weight:700">for</span> t <span style="color:#007020;font-weight:700">in</span> batch)
+        b_input_ids, b_input_mask, b_labels <span style="color:#666">=</span> batch
+        <span style="color:#60a0b0;font-style:italic"># Always clear any previously calculated gradients before performing a backward pass.</span>
+        model<span style="color:#666">.</span>zero_grad()
+        <span style="color:#60a0b0;font-style:italic"># forward pass</span>
+        <span style="color:#60a0b0;font-style:italic"># This will return the loss (rather than the model output)</span>
+        <span style="color:#60a0b0;font-style:italic"># because we have provided the `labels`.</span>
+        outputs <span style="color:#666">=</span> model(b_input_ids, token_type_ids<span style="color:#666">=</span>None,
+                        attention_mask<span style="color:#666">=</span>b_input_mask, labels<span style="color:#666">=</span>b_labels)
+        <span style="color:#60a0b0;font-style:italic"># get the loss</span>
+        loss <span style="color:#666">=</span> outputs[<span style="color:#40a070">0</span>]
+        <span style="color:#60a0b0;font-style:italic"># Perform a backward pass to calculate the gradients.</span>
+        loss<span style="color:#666">.</span>backward()
+        <span style="color:#60a0b0;font-style:italic"># track train loss</span>
+        total_loss <span style="color:#666">+</span><span style="color:#666">=</span> loss<span style="color:#666">.</span>item()
+        <span style="color:#60a0b0;font-style:italic"># Clip the norm of the gradient</span>
+        <span style="color:#60a0b0;font-style:italic"># This is to help prevent the "exploding gradients" problem.</span>
+        torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>utils<span style="color:#666">.</span>clip_grad_norm_(parameters<span style="color:#666">=</span>model<span style="color:#666">.</span>parameters(), max_norm<span style="color:#666">=</span>max_grad_norm)
+        <span style="color:#60a0b0;font-style:italic"># update parameters</span>
+        optimizer<span style="color:#666">.</span>step()
+        <span style="color:#60a0b0;font-style:italic"># Update the learning rate.</span>
+        scheduler<span style="color:#666">.</span>step()
+
+    <span style="color:#60a0b0;font-style:italic"># Calculate the average loss over the training data.</span>
+    avg_train_loss <span style="color:#666">=</span> total_loss <span style="color:#666">/</span> <span style="color:#007020">len</span>(train_dataloader)
+    <span style="color:#007020;font-weight:700">print</span>(<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">Average train loss: {}</span><span style="color:#4070a0">"</span><span style="color:#666">.</span>format(avg_train_loss))
+
+    <span style="color:#60a0b0;font-style:italic"># Store the loss value for plotting the learning curve.</span>
+    loss_values<span style="color:#666">.</span>append(avg_train_loss)
+
+
+    <span style="color:#60a0b0;font-style:italic"># ========================================</span>
+    <span style="color:#60a0b0;font-style:italic">#               Validation</span>
+    <span style="color:#60a0b0;font-style:italic"># ========================================</span>
+    <span style="color:#60a0b0;font-style:italic"># After the completion of each training epoch, measure our performance on</span>
+    <span style="color:#60a0b0;font-style:italic"># our validation set.</span>
+
+    <span style="color:#60a0b0;font-style:italic"># Put the model into evaluation mode</span>
+    model<span style="color:#666">.</span>eval()
+    <span style="color:#60a0b0;font-style:italic"># Reset the validation loss for this epoch.</span>
+    eval_loss, eval_accuracy <span style="color:#666">=</span> <span style="color:#40a070">0</span>, <span style="color:#40a070">0</span>
+    nb_eval_steps, nb_eval_examples <span style="color:#666">=</span> <span style="color:#40a070">0</span>, <span style="color:#40a070">0</span>
+    predictions , true_labels <span style="color:#666">=</span> [], []
+    <span style="color:#007020;font-weight:700">for</span> batch <span style="color:#007020;font-weight:700">in</span> valid_dataloader:
+        batch <span style="color:#666">=</span> <span style="color:#007020">tuple</span>(t<span style="color:#666">.</span>to(device) <span style="color:#007020;font-weight:700">for</span> t <span style="color:#007020;font-weight:700">in</span> batch)
+        b_input_ids, b_input_mask, b_labels <span style="color:#666">=</span> batch
+
+        <span style="color:#60a0b0;font-style:italic"># Telling the model not to compute or store gradients,</span>
+        <span style="color:#60a0b0;font-style:italic"># saving memory and speeding up validation</span>
+        <span style="color:#007020;font-weight:700">with</span> torch<span style="color:#666">.</span>no_grad():
+            <span style="color:#60a0b0;font-style:italic"># Forward pass, calculate logit predictions.</span>
+            <span style="color:#60a0b0;font-style:italic"># This will return the logits rather than the loss because we have not provided labels.</span>
+            outputs <span style="color:#666">=</span> model(b_input_ids, token_type_ids<span style="color:#666">=</span>None,
+                            attention_mask<span style="color:#666">=</span>b_input_mask, labels<span style="color:#666">=</span>b_labels)
+        <span style="color:#60a0b0;font-style:italic"># Move logits and labels to CPU</span>
+        logits <span style="color:#666">=</span> outputs[<span style="color:#40a070">1</span>]<span style="color:#666">.</span>detach()<span style="color:#666">.</span>cpu()<span style="color:#666">.</span>numpy()
+        label_ids <span style="color:#666">=</span> b_labels<span style="color:#666">.</span>to(<span style="color:#4070a0"></span><span style="color:#4070a0">'</span><span style="color:#4070a0">cpu</span><span style="color:#4070a0">'</span>)<span style="color:#666">.</span>numpy()
+
+        <span style="color:#60a0b0;font-style:italic"># Calculate the accuracy for this batch of test sentences.</span>
+        eval_loss <span style="color:#666">+</span><span style="color:#666">=</span> outputs[<span style="color:#40a070">0</span>]<span style="color:#666">.</span>mean()<span style="color:#666">.</span>item()
+        predictions<span style="color:#666">.</span>extend([<span style="color:#007020">list</span>(p) <span style="color:#007020;font-weight:700">for</span> p <span style="color:#007020;font-weight:700">in</span> np<span style="color:#666">.</span>argmax(logits, axis<span style="color:#666">=</span><span style="color:#40a070">2</span>)])
+        true_labels<span style="color:#666">.</span>extend(label_ids)
+
+    eval_loss <span style="color:#666">=</span> eval_loss <span style="color:#666">/</span> <span style="color:#007020">len</span>(valid_dataloader)
+    validation_loss_values<span style="color:#666">.</span>append(eval_loss)
+    <span style="color:#007020;font-weight:700">print</span>(<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">Validation loss: {}</span><span style="color:#4070a0">"</span><span style="color:#666">.</span>format(eval_loss))
+    pred_tags <span style="color:#666">=</span> [tag_values[p_i] <span style="color:#007020;font-weight:700">for</span> p, l <span style="color:#007020;font-weight:700">in</span> <span style="color:#007020">zip</span>(predictions, true_labels)
+                                 <span style="color:#007020;font-weight:700">for</span> p_i, l_i <span style="color:#007020;font-weight:700">in</span> <span style="color:#007020">zip</span>(p, l) <span style="color:#007020;font-weight:700">if</span> tag_values[l_i] <span style="color:#666">!=</span> <span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">PAD</span><span style="color:#4070a0">"</span>]
+    valid_tags <span style="color:#666">=</span> [tag_values[l_i] <span style="color:#007020;font-weight:700">for</span> l <span style="color:#007020;font-weight:700">in</span> true_labels
+                                  <span style="color:#007020;font-weight:700">for</span> l_i <span style="color:#007020;font-weight:700">in</span> l <span style="color:#007020;font-weight:700">if</span> tag_values[l_i] <span style="color:#666">!=</span> <span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">PAD</span><span style="color:#4070a0">"</span>]
+    <span style="color:#007020;font-weight:700">print</span>(<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">Validation Accuracy: {}</span><span style="color:#4070a0">"</span><span style="color:#666">.</span>format(accuracy_score(pred_tags, valid_tags)))
+    <span style="color:#007020;font-weight:700">print</span>(<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">Validation F1-Score: {}</span><span style="color:#4070a0">"</span><span style="color:#666">.</span>format(f1_score(pred_tags, valid_tags)))
+    <span style="color:#007020;font-weight:700">print</span>()
+</code></pre></div><button class="copy-code-button" type="button">Copy</button><pre><code>Epoch:   0%|          | 0/3 [00:00&lt;?, ?it/s]
+
+Average train loss: 0.1898609203341009
+Validation loss: 0.13870085475345453
+Validation Accuracy: 0.9573218932182734
+
+
+Epoch:  33%|███▎      | 1/3 [05:46&lt;11:32, 346.48s/it]
+
+Validation F1-Score: 0.8082904653666707
+
+Average train loss: 0.10873485815810044
+Validation loss: 0.12388065780202548
+Validation Accuracy: 0.9618919007937815
+
+
+Epoch:  67%|██████▋   | 2/3 [11:33&lt;05:46, 346.66s/it]
+
+Validation F1-Score: 0.8290478043523812
+
+Average train loss: 0.08079738907924708
+Validation loss: 0.13116426080465315
+Validation Accuracy: 0.9616613418530351
+
+
+Epoch: 100%|██████████| 3/3 [17:20&lt;00:00, 346.92s/it]
+
+Validation F1-Score: 0.8295603479089718
+</code></pre><p>Note, that already after the first epoch we get a better performance than in all my previous posts on the topic.</p><h3 id="visualize-the-training-loss">Visualize the training loss</h3><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:700">import</span> <span style="color:#0e84b5;font-weight:700">matplotlib.pyplot</span> <span style="color:#007020;font-weight:700">as</span> <span style="color:#0e84b5;font-weight:700">plt</span>
+<span style="color:#666">%</span>matplotlib inline
+
+<span style="color:#007020;font-weight:700">import</span> <span style="color:#0e84b5;font-weight:700">seaborn</span> <span style="color:#007020;font-weight:700">as</span> <span style="color:#0e84b5;font-weight:700">sns</span>
+
+<span style="color:#60a0b0;font-style:italic"># Use plot styling from seaborn.</span>
+sns<span style="color:#666">.</span>set(style<span style="color:#666">=</span><span style="color:#4070a0"></span><span style="color:#4070a0">'</span><span style="color:#4070a0">darkgrid</span><span style="color:#4070a0">'</span>)
+
+<span style="color:#60a0b0;font-style:italic"># Increase the plot size and font size.</span>
+sns<span style="color:#666">.</span>set(font_scale<span style="color:#666">=</span><span style="color:#40a070">1.5</span>)
+plt<span style="color:#666">.</span>rcParams[<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">figure.figsize</span><span style="color:#4070a0">"</span>] <span style="color:#666">=</span> (<span style="color:#40a070">12</span>,<span style="color:#40a070">6</span>)
+
+<span style="color:#60a0b0;font-style:italic"># Plot the learning curve.</span>
+plt<span style="color:#666">.</span>plot(loss_values, <span style="color:#4070a0"></span><span style="color:#4070a0">'</span><span style="color:#4070a0">b-o</span><span style="color:#4070a0">'</span>, label<span style="color:#666">=</span><span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">training loss</span><span style="color:#4070a0">"</span>)
+plt<span style="color:#666">.</span>plot(validation_loss_values, <span style="color:#4070a0"></span><span style="color:#4070a0">'</span><span style="color:#4070a0">r-o</span><span style="color:#4070a0">'</span>, label<span style="color:#666">=</span><span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">validation loss</span><span style="color:#4070a0">"</span>)
+
+<span style="color:#60a0b0;font-style:italic"># Label the plot.</span>
+plt<span style="color:#666">.</span>title(<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">Learning curve</span><span style="color:#4070a0">"</span>)
+plt<span style="color:#666">.</span>xlabel(<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">Epoch</span><span style="color:#4070a0">"</span>)
+plt<span style="color:#666">.</span>ylabel(<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">Loss</span><span style="color:#4070a0">"</span>)
+plt<span style="color:#666">.</span>legend()
+
+plt<span style="color:#666">.</span>show()
+</code></pre></div><p><img src="./Named entity recognition with Bert _ Depends on the definition_files/named-entity-recognition-with-bert_54_0.png" alt="png"></p><p>This looks good so we move on.</p><h2 id="apply-the-model-to-a-new-sentence">Apply the model to a new sentence</h2><p>Finally we want our model to identify named entities in new text. I just took this sentence from the recent New York Times frontpage.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">test_sentence <span style="color:#666">=</span> <span style="color:#4070a0"></span><span style="color:#4070a0">"""</span><span style="color:#4070a0">
+</span><span style="color:#4070a0"></span><span style="color:#4070a0">Mr. Trump’s tweets began just moments after a Fox News report by Mike Tobin, a </span><span style="color:#4070a0">
+</span><span style="color:#4070a0"></span><span style="color:#4070a0">reporter for the network, about protests in Minnesota and elsewhere. </span><span style="color:#4070a0">
+</span><span style="color:#4070a0"></span><span style="color:#4070a0">"""</span>
+</code></pre></div><p>We first tokenize the text.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tokenized_sentence <span style="color:#666">=</span> tokenizer<span style="color:#666">.</span>encode(test_sentence)
+input_ids <span style="color:#666">=</span> torch<span style="color:#666">.</span>tensor([tokenized_sentence])<span style="color:#666">.</span>cuda()
+</code></pre></div><p>Then we can run the sentence through the model.</p><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:700">with</span> torch<span style="color:#666">.</span>no_grad():
+    output <span style="color:#666">=</span> model(input_ids)
+label_indices <span style="color:#666">=</span> np<span style="color:#666">.</span>argmax(output[<span style="color:#40a070">0</span>]<span style="color:#666">.</span>to(<span style="color:#4070a0"></span><span style="color:#4070a0">'</span><span style="color:#4070a0">cpu</span><span style="color:#4070a0">'</span>)<span style="color:#666">.</span>numpy(), axis<span style="color:#666">=</span><span style="color:#40a070">2</span>)
+</code></pre></div><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#60a0b0;font-style:italic"># join bpe split tokens</span>
+tokens <span style="color:#666">=</span> tokenizer<span style="color:#666">.</span>convert_ids_to_tokens(input_ids<span style="color:#666">.</span>to(<span style="color:#4070a0"></span><span style="color:#4070a0">'</span><span style="color:#4070a0">cpu</span><span style="color:#4070a0">'</span>)<span style="color:#666">.</span>numpy()[<span style="color:#40a070">0</span>])
+new_tokens, new_labels <span style="color:#666">=</span> [], []
+<span style="color:#007020;font-weight:700">for</span> token, label_idx <span style="color:#007020;font-weight:700">in</span> <span style="color:#007020">zip</span>(tokens, label_indices[<span style="color:#40a070">0</span>]):
+    <span style="color:#007020;font-weight:700">if</span> token<span style="color:#666">.</span>startswith(<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">##</span><span style="color:#4070a0">"</span>):
+        new_tokens[<span style="color:#666">-</span><span style="color:#40a070">1</span>] <span style="color:#666">=</span> new_tokens[<span style="color:#666">-</span><span style="color:#40a070">1</span>] <span style="color:#666">+</span> token[<span style="color:#40a070">2</span>:]
+    <span style="color:#007020;font-weight:700">else</span>:
+        new_labels<span style="color:#666">.</span>append(tag_values[label_idx])
+        new_tokens<span style="color:#666">.</span>append(token)
+</code></pre></div><button class="copy-code-button" type="button">Copy</button><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:700">for</span> token, label <span style="color:#007020;font-weight:700">in</span> <span style="color:#007020">zip</span>(new_tokens, new_labels):
+    <span style="color:#007020;font-weight:700">print</span>(<span style="color:#4070a0"></span><span style="color:#4070a0">"</span><span style="color:#4070a0">{}</span><span style="color:#4070a0;font-weight:700">\t</span><span style="color:#4070a0">{}</span><span style="color:#4070a0">"</span><span style="color:#666">.</span>format(label, token))
+</code></pre></div><button class="copy-code-button" type="button">Copy</button><pre><code>O	[CLS]
+B-per	Mr
+B-per	.
+I-per	Trump
+O	’
+O	s
+O	tweets
+O	began
+O	just
+O	moments
+O	after
+O	a
+B-org	Fox
+I-org	News
+O	report
+O	by
+B-per	Mike
+I-per	Tobin
+O	,
+O	a
+O	reporter
+O	for
+O	the
+O	network
+O	,
+O	about
+O	protests
+O	in
+B-geo	Minnesota
+O	and
+O	elsewhere
+O	.
+O	[SEP]
+</code></pre><p>As you can see, this works amazing! This approach will give you very strong performing models for <a href="https://www.depends-on-the-definition.com/tags/named-entity-recognition/">named entity recognition</a>. Since BERT is available as a multilingual model in 102 languages, you can use it for a wide variety of tasks. Try it for your problems and let me know how it works for you.</p><h2 id="resources">Resources</h2><ul><li><a href="https://jalammar.github.io/illustrated-bert/">Beautifully illustrated explanation of Bert, ELMo and ULM-Fit</a></li><li>The original Bert Paper: <a href="https://arxiv.org/pdf/1810.04805.pdf">“BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding”</a></li><li><a href="https://github.com/huggingface/pytorch-pretrained-BERT">Documentation of pytorch-pretrained-bert</a></li></ul><hr><center><a href="https://www.buymeacoffee.com/tsterbak" target="_blank" onclick="plausible(&#39;buymecoffee_button&#39;)"><img src="./Named entity recognition with Bert _ Depends on the definition_files/default-blue.webp" alt="Buy Me A Coffee" style="height:51px!important;width:217px!important;border-radius:9px"></a></center><hr><div class="related"><h3>Similar articles:</h3><ul><li><a href="https://www.depends-on-the-definition.com/named-entity-recognition-with-residual-lstm-and-elmo/">State-of-the-art named entity recognition with residual LSTM and ELMo</a></li><li><a href="https://www.depends-on-the-definition.com/lstm-with-char-embeddings-for-ner/">Enhancing LSTMs with character embeddings for Named entity recognition</a></li><li><a href="https://www.depends-on-the-definition.com/sequence-tagging-lstm-crf/">Sequence tagging with LSTM-CRFs</a></li><li><a href="https://www.depends-on-the-definition.com/guide-sequence-tagging-neural-networks-python/">Guide to sequence tagging with neural networks</a></li><li><a href="https://www.depends-on-the-definition.com/attention-lstm-relation-classification/">LSTM with attention for relation classification</a></li></ul></div><hr><form action="https://depends-on-the-definition.us16.list-manage.com/subscribe/post?u=679cb933ef1e6038894b06b83&amp;id=4446721d7e" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate=""><label for="mce-EMAIL">Subscribe to the newsletter</label>
+<input type="email" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required=""><div style="position:absolute;left:-5000px" aria-hidden="true"><input type="text" name="b_679cb933ef1e6038894b06b83_4446721d7e" tabindex="-1"></div><input type="submit" value="Subscribe" name="subscribe"></form></div></div></section><script src="./Named entity recognition with Bert _ Depends on the definition_files/copycode.js.download"></script><section class="section"><div class="container has-text-centered"><p><a href="https://www.depends-on-the-definition.com/privacy/">Privacy</a>
+<a href="https://www.depends-on-the-definition.com/imprint/">Imprint</a></p><p>© <a href="https://www.depends-on-the-definition.com/about/">depends-on-the-definition</a> 2017-2020</p></div></section><footer><script data-name="BMC-Widget" src="./Named entity recognition with Bert _ Depends on the definition_files/widget.prod.min.js.download" data-id="tsterbak" data-description="Support me on Buy me a coffee!" data-message="Support me" data-color="#5F7FFF" data-position="right" data-x_margin="18" data-y_margin="18"></script><link rel="stylesheet" href="./Named entity recognition with Bert _ Depends on the definition_files/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous"><script defer="" src="./Named entity recognition with Bert _ Depends on the definition_files/katex.min.js.download" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script><script defer="" src="./Named entity recognition with Bert _ Depends on the definition_files/auto-render.min.js.download" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left:&#39;$$&#39;,right:&#39;$$&#39;,display:true},{left:&#39;$&#39;,right:&#39;$&#39;,display:false},]});"></script><script>feather.replace()</script></footer><div style="position: fixed; top: 0px; left: 0px; width: 0px; height: 0px; background: rgba(0, 0, 0, 0); text-align: center; z-index: 99999; transition: all 0.4s ease 0s;"><iframe style="position: fixed; margin: 0px; border: 0px; right: 18px; bottom: 98px; height: 0px; opacity: 0; width: calc(100vw - 38px); max-width: 320px; border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.4) 0px 8px 16px; background: url(&quot;https://cdn.buymeacoffee.com/assets/img/widget/loader.svg&quot;) center center / 64px no-repeat rgb(255, 255, 255); z-index: 999999; transition: all 0.4s ease 0s; max-height: 620px;" src="./Named entity recognition with Bert _ Depends on the definition_files/saved_resource.html"></iframe></div><div id="bmc-wbtn" style="display: flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: rgb(95, 127, 255); color: white; border-radius: 32px; position: fixed; right: 18px; bottom: 18px; box-shadow: rgba(0, 0, 0, 0.4) 0px 4px 8px; z-index: 9999; cursor: pointer; font-weight: 600; transition: all 0.2s ease 0s;"><img src="./Named entity recognition with Bert _ Depends on the definition_files/coffee cup.svg" alt="Buy Me A Coffee" style="height: 40px; width: 40px; margin: 0; padding: 0;"></div><div style="position: fixed; display: block; opacity: 1; right: 102px; bottom: 16px; background: rgb(255, 255, 255); z-index: 9999; transition: all 0.4s ease 0s; box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 8px; padding: 16px; border-radius: 4px; font-size: 14px; color: rgb(0, 0, 0); width: auto; max-width: 260px; line-height: 1.5; font-family: &quot;Avenir Book1&quot;, &quot;Avenir Book2&quot;, &quot;Avenir Book3&quot;, &quot;Avenir Book4&quot;, &quot;Avenir Book5&quot;, &quot;Avenir Book6&quot;, sans-serif;">Support me</div></body></html>

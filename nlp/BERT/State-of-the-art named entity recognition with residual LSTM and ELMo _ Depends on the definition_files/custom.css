@@ -1,0 +1,95 @@
+html {
+    scroll-behavior: smooth;
+}
+
+/* Enable scrolling for large tables*/
+.scrolltable {
+	overflow: auto;
+}
+
+/* custom button template*/
+.cbutton {
+  background-color: LightCoral;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+}
+
+.cbutton:hover {
+  background-color: IndianRed;
+  color: white;
+}
+
+/* Style the header: fixed position (always stay at the top) */
+.progress-header {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    background-color: #f1f1f1;
+}
+
+/* The progress container (grey background) */
+.progress-container {
+    width: 100%;
+    height: 8px;
+    background: #ccc;
+}
+
+/* The progress bar (scroll indicator) */
+.progress-bar {
+    height: 8px;
+    background: LightCoral;
+    width: 0%;
+}
+
+
+/* Make the table of content sticky and place it */
+.toc {
+    padding: 2%;
+    overflow: auto;
+    float: right;
+    position: sticky;
+    top: 0;
+    display:none;
+}
+
+/* Only show ToC if screen is large enougth */
+@media screen and (min-width: 1400px) {
+    .toc  { display: block; }
+}
+
+/* back to top button */
+#myBtn {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed/sticky position */
+    bottom: 90px; /* Place the button at the bottom of the page */
+    left: 50%;  /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    outline: none; /* Remove outline */
+    background-color: LightCoral; /* Set a background color */
+    color: none; /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    padding: 1px; /* Some padding */
+    border-radius: 0px; /* Rounded corners */
+    font-size: 10px; /* Increase font size */
+    width: 60px;
+    height: 60px;
+}
+
+#myBtn:hover {
+    background-color: IndianRed; /* Add a dark-grey background on hover */
+}
+
+.icon:hover {
+    cursor: pointer; /* Add a mouse pointer on hover */
+    background-color: LightCoral; /* Set a background color */
+    border-radius: 90px; /* Rounded corners */
+    padding: 1px; /* Some padding */
+}
