@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>ModelSummary – Medium</title><meta name="description" content="ModelSummary. GitHub Gist: instantly share code, notes, and snippets."><meta name="twitter:widgets:csp" content="on"><meta name="robots" content="noindex"><!--<base target="_blank">--><base href="." target="_blank"><style>body {text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: "ff-tisa-web-pro", Georgia, Cambria, "Times New Roman", Times, serif; font-weight: 400; color: #333332; font-size: 18px; line-height: 1.4; margin: 0; background-color: white; overflow: hidden;}iframe {max-width: 100%;}</style></head><body><style>.gist .gist-file { margin-bottom: 0 !important; }.gist { text-rendering: auto; }</style><script src="./6b14edabdb998bcb7d623c84d780d703.js.download" charset="utf-8"></script><link rel="stylesheet" href="./gist-embed-52b3348036dbd45f4ab76e44de42ebc4.css"><div id="gist94297881" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-model_summary-py" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-python ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8" data-paste-markdown-skip="">
+      <tbody><tr>
+        <td id="file-model_summary-py-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-model_summary-py-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-v">BertForMultiLabelSequenceClassification</span>(</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-model_summary-py-LC2" class="blob-code blob-code-inner js-file-line">  (<span class="pl-s1">bert</span>): <span class="pl-v">BertModel</span>(</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-model_summary-py-LC3" class="blob-code blob-code-inner js-file-line">    (<span class="pl-s1">embeddings</span>): <span class="pl-v">BertEmbeddings</span>(</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-model_summary-py-LC4" class="blob-code blob-code-inner js-file-line">      (<span class="pl-s1">word_embeddings</span>): <span class="pl-v">Embedding</span>(<span class="pl-c1">28996</span>, <span class="pl-c1">768</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-model_summary-py-LC5" class="blob-code blob-code-inner js-file-line">      (<span class="pl-s1">position_embeddings</span>): <span class="pl-v">Embedding</span>(<span class="pl-c1">512</span>, <span class="pl-c1">768</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-model_summary-py-LC6" class="blob-code blob-code-inner js-file-line">      (<span class="pl-s1">token_type_embeddings</span>): <span class="pl-v">Embedding</span>(<span class="pl-c1">2</span>, <span class="pl-c1">768</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-model_summary-py-LC7" class="blob-code blob-code-inner js-file-line">      (<span class="pl-v">LayerNorm</span>): <span class="pl-v">FusedLayerNorm</span>(<span class="pl-s1">torch</span>.<span class="pl-v">Size</span>([<span class="pl-c1">768</span>]), <span class="pl-s1">eps</span><span class="pl-c1">=</span><span class="pl-c1">1e-12</span>, <span class="pl-s1">elementwise_affine</span><span class="pl-c1">=</span><span class="pl-c1">True</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-model_summary-py-LC8" class="blob-code blob-code-inner js-file-line">      (<span class="pl-s1">dropout</span>): <span class="pl-v">Dropout</span>(<span class="pl-s1">p</span><span class="pl-c1">=</span><span class="pl-c1">0.1</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-model_summary-py-LC9" class="blob-code blob-code-inner js-file-line">    )</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-model_summary-py-LC10" class="blob-code blob-code-inner js-file-line">    (<span class="pl-s1">encoder</span>): <span class="pl-v">BertEncoder</span>(</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-model_summary-py-LC11" class="blob-code blob-code-inner js-file-line">      (<span class="pl-s1">layer</span>): <span class="pl-v">ModuleList</span>(</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L12" class="blob-num js-line-number" data-line-number="12"></td>
+        <td id="file-model_summary-py-LC12" class="blob-code blob-code-inner js-file-line"><span class="pl-c">#       12 BertLayers</span></td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L13" class="blob-num js-line-number" data-line-number="13"></td>
+        <td id="file-model_summary-py-LC13" class="blob-code blob-code-inner js-file-line">        (<span class="pl-c1">11</span>): <span class="pl-v">BertLayer</span>(</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L14" class="blob-num js-line-number" data-line-number="14"></td>
+        <td id="file-model_summary-py-LC14" class="blob-code blob-code-inner js-file-line">          (<span class="pl-s1">attention</span>): <span class="pl-v">BertAttention</span>(</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L15" class="blob-num js-line-number" data-line-number="15"></td>
+        <td id="file-model_summary-py-LC15" class="blob-code blob-code-inner js-file-line">            (<span class="pl-s1">self</span>): <span class="pl-v">BertSelfAttention</span>(</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L16" class="blob-num js-line-number" data-line-number="16"></td>
+        <td id="file-model_summary-py-LC16" class="blob-code blob-code-inner js-file-line">              (<span class="pl-s1">query</span>): <span class="pl-v">Linear</span>(<span class="pl-s1">in_features</span><span class="pl-c1">=</span><span class="pl-c1">768</span>, <span class="pl-s1">out_features</span><span class="pl-c1">=</span><span class="pl-c1">768</span>, <span class="pl-s1">bias</span><span class="pl-c1">=</span><span class="pl-c1">True</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L17" class="blob-num js-line-number" data-line-number="17"></td>
+        <td id="file-model_summary-py-LC17" class="blob-code blob-code-inner js-file-line">              (<span class="pl-s1">key</span>): <span class="pl-v">Linear</span>(<span class="pl-s1">in_features</span><span class="pl-c1">=</span><span class="pl-c1">768</span>, <span class="pl-s1">out_features</span><span class="pl-c1">=</span><span class="pl-c1">768</span>, <span class="pl-s1">bias</span><span class="pl-c1">=</span><span class="pl-c1">True</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L18" class="blob-num js-line-number" data-line-number="18"></td>
+        <td id="file-model_summary-py-LC18" class="blob-code blob-code-inner js-file-line">              (<span class="pl-s1">value</span>): <span class="pl-v">Linear</span>(<span class="pl-s1">in_features</span><span class="pl-c1">=</span><span class="pl-c1">768</span>, <span class="pl-s1">out_features</span><span class="pl-c1">=</span><span class="pl-c1">768</span>, <span class="pl-s1">bias</span><span class="pl-c1">=</span><span class="pl-c1">True</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L19" class="blob-num js-line-number" data-line-number="19"></td>
+        <td id="file-model_summary-py-LC19" class="blob-code blob-code-inner js-file-line">              (<span class="pl-s1">dropout</span>): <span class="pl-v">Dropout</span>(<span class="pl-s1">p</span><span class="pl-c1">=</span><span class="pl-c1">0.1</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L20" class="blob-num js-line-number" data-line-number="20"></td>
+        <td id="file-model_summary-py-LC20" class="blob-code blob-code-inner js-file-line">            )</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L21" class="blob-num js-line-number" data-line-number="21"></td>
+        <td id="file-model_summary-py-LC21" class="blob-code blob-code-inner js-file-line">            (<span class="pl-s1">output</span>): <span class="pl-v">BertSelfOutput</span>(</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L22" class="blob-num js-line-number" data-line-number="22"></td>
+        <td id="file-model_summary-py-LC22" class="blob-code blob-code-inner js-file-line">              (<span class="pl-s1">dense</span>): <span class="pl-v">Linear</span>(<span class="pl-s1">in_features</span><span class="pl-c1">=</span><span class="pl-c1">768</span>, <span class="pl-s1">out_features</span><span class="pl-c1">=</span><span class="pl-c1">768</span>, <span class="pl-s1">bias</span><span class="pl-c1">=</span><span class="pl-c1">True</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L23" class="blob-num js-line-number" data-line-number="23"></td>
+        <td id="file-model_summary-py-LC23" class="blob-code blob-code-inner js-file-line">              (<span class="pl-v">LayerNorm</span>): <span class="pl-v">FusedLayerNorm</span>(<span class="pl-s1">torch</span>.<span class="pl-v">Size</span>([<span class="pl-c1">768</span>]), <span class="pl-s1">eps</span><span class="pl-c1">=</span><span class="pl-c1">1e-12</span>, <span class="pl-s1">elementwise_affine</span><span class="pl-c1">=</span><span class="pl-c1">True</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L24" class="blob-num js-line-number" data-line-number="24"></td>
+        <td id="file-model_summary-py-LC24" class="blob-code blob-code-inner js-file-line">              (<span class="pl-s1">dropout</span>): <span class="pl-v">Dropout</span>(<span class="pl-s1">p</span><span class="pl-c1">=</span><span class="pl-c1">0.1</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L25" class="blob-num js-line-number" data-line-number="25"></td>
+        <td id="file-model_summary-py-LC25" class="blob-code blob-code-inner js-file-line">            )</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L26" class="blob-num js-line-number" data-line-number="26"></td>
+        <td id="file-model_summary-py-LC26" class="blob-code blob-code-inner js-file-line">          )</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L27" class="blob-num js-line-number" data-line-number="27"></td>
+        <td id="file-model_summary-py-LC27" class="blob-code blob-code-inner js-file-line">          (<span class="pl-s1">intermediate</span>): <span class="pl-v">BertIntermediate</span>(</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L28" class="blob-num js-line-number" data-line-number="28"></td>
+        <td id="file-model_summary-py-LC28" class="blob-code blob-code-inner js-file-line">            (<span class="pl-s1">dense</span>): <span class="pl-v">Linear</span>(<span class="pl-s1">in_features</span><span class="pl-c1">=</span><span class="pl-c1">768</span>, <span class="pl-s1">out_features</span><span class="pl-c1">=</span><span class="pl-c1">3072</span>, <span class="pl-s1">bias</span><span class="pl-c1">=</span><span class="pl-c1">True</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L29" class="blob-num js-line-number" data-line-number="29"></td>
+        <td id="file-model_summary-py-LC29" class="blob-code blob-code-inner js-file-line">          )</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L30" class="blob-num js-line-number" data-line-number="30"></td>
+        <td id="file-model_summary-py-LC30" class="blob-code blob-code-inner js-file-line">          (<span class="pl-s1">output</span>): <span class="pl-v">BertOutput</span>(</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L31" class="blob-num js-line-number" data-line-number="31"></td>
+        <td id="file-model_summary-py-LC31" class="blob-code blob-code-inner js-file-line">            (<span class="pl-s1">dense</span>): <span class="pl-v">Linear</span>(<span class="pl-s1">in_features</span><span class="pl-c1">=</span><span class="pl-c1">3072</span>, <span class="pl-s1">out_features</span><span class="pl-c1">=</span><span class="pl-c1">768</span>, <span class="pl-s1">bias</span><span class="pl-c1">=</span><span class="pl-c1">True</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L32" class="blob-num js-line-number" data-line-number="32"></td>
+        <td id="file-model_summary-py-LC32" class="blob-code blob-code-inner js-file-line">            (<span class="pl-v">LayerNorm</span>): <span class="pl-v">FusedLayerNorm</span>(<span class="pl-s1">torch</span>.<span class="pl-v">Size</span>([<span class="pl-c1">768</span>]), <span class="pl-s1">eps</span><span class="pl-c1">=</span><span class="pl-c1">1e-12</span>, <span class="pl-s1">elementwise_affine</span><span class="pl-c1">=</span><span class="pl-c1">True</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L33" class="blob-num js-line-number" data-line-number="33"></td>
+        <td id="file-model_summary-py-LC33" class="blob-code blob-code-inner js-file-line">            (<span class="pl-s1">dropout</span>): <span class="pl-v">Dropout</span>(<span class="pl-s1">p</span><span class="pl-c1">=</span><span class="pl-c1">0.1</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L34" class="blob-num js-line-number" data-line-number="34"></td>
+        <td id="file-model_summary-py-LC34" class="blob-code blob-code-inner js-file-line">          )</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L35" class="blob-num js-line-number" data-line-number="35"></td>
+        <td id="file-model_summary-py-LC35" class="blob-code blob-code-inner js-file-line">        )</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L36" class="blob-num js-line-number" data-line-number="36"></td>
+        <td id="file-model_summary-py-LC36" class="blob-code blob-code-inner js-file-line">      )</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L37" class="blob-num js-line-number" data-line-number="37"></td>
+        <td id="file-model_summary-py-LC37" class="blob-code blob-code-inner js-file-line">    )</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L38" class="blob-num js-line-number" data-line-number="38"></td>
+        <td id="file-model_summary-py-LC38" class="blob-code blob-code-inner js-file-line">    (<span class="pl-s1">pooler</span>): <span class="pl-v">BertPooler</span>(</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L39" class="blob-num js-line-number" data-line-number="39"></td>
+        <td id="file-model_summary-py-LC39" class="blob-code blob-code-inner js-file-line">      (<span class="pl-s1">dense</span>): <span class="pl-v">Linear</span>(<span class="pl-s1">in_features</span><span class="pl-c1">=</span><span class="pl-c1">768</span>, <span class="pl-s1">out_features</span><span class="pl-c1">=</span><span class="pl-c1">768</span>, <span class="pl-s1">bias</span><span class="pl-c1">=</span><span class="pl-c1">True</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L40" class="blob-num js-line-number" data-line-number="40"></td>
+        <td id="file-model_summary-py-LC40" class="blob-code blob-code-inner js-file-line">      (<span class="pl-s1">activation</span>): <span class="pl-v">Tanh</span>()</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L41" class="blob-num js-line-number" data-line-number="41"></td>
+        <td id="file-model_summary-py-LC41" class="blob-code blob-code-inner js-file-line">    )</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L42" class="blob-num js-line-number" data-line-number="42"></td>
+        <td id="file-model_summary-py-LC42" class="blob-code blob-code-inner js-file-line">  )</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L43" class="blob-num js-line-number" data-line-number="43"></td>
+        <td id="file-model_summary-py-LC43" class="blob-code blob-code-inner js-file-line">  (<span class="pl-s1">dropout</span>): <span class="pl-v">Dropout</span>(<span class="pl-s1">p</span><span class="pl-c1">=</span><span class="pl-c1">0.1</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L44" class="blob-num js-line-number" data-line-number="44"></td>
+        <td id="file-model_summary-py-LC44" class="blob-code blob-code-inner js-file-line">  (<span class="pl-s1">classifier</span>): <span class="pl-v">Linear</span>(<span class="pl-s1">in_features</span><span class="pl-c1">=</span><span class="pl-c1">768</span>, <span class="pl-s1">out_features</span><span class="pl-c1">=</span><span class="pl-c1">6</span>, <span class="pl-s1">bias</span><span class="pl-c1">=</span><span class="pl-c1">True</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-model_summary-py-L45" class="blob-num js-line-number" data-line-number="45"></td>
+        <td id="file-model_summary-py-LC45" class="blob-code blob-code-inner js-file-line">)</td>
+      </tr>
+</tbody></table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/kaushaltrivedi/6b14edabdb998bcb7d623c84d780d703/raw/a7264e1910e3578f619cf2b9fba4d2eb613d85fa/model_summary.py" style="float:right">view raw</a>
+        <a href="https://gist.github.com/kaushaltrivedi/6b14edabdb998bcb7d623c84d780d703#file-model_summary-py">model_summary.py</a>
+        hosted with ❤ by <a href="https://github.com/">GitHub</a>
+      </div>
+    </div>
+</div>
+<script>var height = -1; var delayMs = 200; if (document) {document.domain = document.domain;}function notifyResize(height) {height = height ? height : document.documentElement.offsetHeight; var resized = false; if (window.donkey && donkey.resize) {donkey.resize(height);var elements = document.getElementsByClassName("gist-data"); for (var i = 0; i < elements.length; i++) {elements[i].style.overflow = "visible"}resized = true;}if (parent && parent._resizeIframe) {var obj = {iframe: window.frameElement, height: height}; parent._resizeIframe(obj); resized = true;}if (window.location && window.location.hash === "#amp=1" && window.parent && window.parent.postMessage) {window.parent.postMessage({sentinel: "amp", type: "embed-size", height: height}, "*");}if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.resize) {window.webkit.messageHandlers.resize.postMessage(height); resized = true;}return resized;}function maybeResize() {try {if (document.documentElement.offsetHeight != height && notifyResize()) {height = document.documentElement.offsetHeight;}delayMs = Math.min(delayMs * 2, 1000000); setTimeout(maybeResize, delayMs);} catch(error) {console.log('maybeResize error: ', error)}}maybeResize();</script></body></html>
